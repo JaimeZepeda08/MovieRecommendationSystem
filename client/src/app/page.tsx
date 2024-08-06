@@ -2,11 +2,22 @@ import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 const Home: React.FC = () => {
+  const title = "Fakeflix";
+  const titleArray = title.split("");
+
   return (
     <div className="flex justify-center items-center h-screen text-white">
       <div className="text-center">
-        <div className="text-5xl font-bold mb-64 text-yellow-600">
-          WEBSITE TITLE
+        <div className="relative mb-64">
+          <div className="absolute inset-0 flex justify-center items-center">
+            <h1 className="text-7xl font-bold text-yellow-600 curved-title">
+              {titleArray.map((letter, index) => (
+                <span key={index} className={`letter-${index}`}>
+                  {letter}
+                </span>
+              ))}
+            </h1>
+          </div>
         </div>
         <div className="flex justify-center text-lg">
           <a
