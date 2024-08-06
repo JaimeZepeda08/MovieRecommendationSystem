@@ -5,6 +5,8 @@ import { BiMoviePlay } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { LuDot } from "react-icons/lu";
+import { IoIosStarOutline } from "react-icons/io";
+import { IoIosStar } from "react-icons/io";
 
 interface MovieProps {
   title: string;
@@ -86,7 +88,7 @@ export const Movie: React.FC<MovieProps> = ({
               ))}
             </div>
             <div className="hidden group-hover:flex z-10 absolute right-2 top-1/2 -translate-y-8 text-white">
-              <IoIosArrowBack size={25} />
+              <IoIosArrowBack size={20} />
             </div>
           </div>
         )}
@@ -100,9 +102,9 @@ export const Movie: React.FC<MovieProps> = ({
       </div>
       {!selected && (
         <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-sm text-white p-4 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-          <div className="text-lg font-bold">{title}</div>
+          <div className="text-md font-bold">{title}</div>
           <div className="hidden group-hover:flex z-10 absolute right-2 top-1/2 -translate-y-1/2 text-white">
-            <IoIosArrowForward size={25} />
+            <IoIosArrowForward size={20} />
           </div>
         </div>
       )}
@@ -178,6 +180,55 @@ export const MovieCarrousel: React.FC<MovieCarrouselProps> = ({ movies }) => {
           tmdbId={movie.tmdbId}
         />
       ))}
+    </div>
+  );
+};
+
+export const RateableMovie: React.FC<MovieProps> = ({
+  title,
+  certification,
+  runtime,
+  release_date,
+  poster,
+  genres,
+  rating,
+  tmdbId,
+}) => {
+  const [userRating, setUserRating] = useState<number>(0);
+
+  const handleStarClick = (rating: number) => {
+    setUserRating(rating);
+  };
+
+  const renderStars = () => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <div
+        key={index}
+        onClick={() => handleStarClick(index + 1)}
+        className="cursor-pointer"
+      >
+        {userRating > index ? (
+          <IoIosStar size={25} className="text-yellow-600" />
+        ) : (
+          <IoIosStarOutline size={25} className="text-yellow-600/50" />
+        )}
+      </div>
+    ));
+  };
+
+  return (
+    <div>
+      <div className="w-[10rem] group relative">
+        <img
+          src={poster}
+          alt={`${title} Poster`}
+          className="w-full h-auto rounded-lg"
+        />
+        <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-sm text-white p-4 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+          <div className="text-sm font-bold">{title}</div>
+        </div>
+      </div>
+      <div className="flex justify-center mt-2">{renderStars()}</div>
     </div>
   );
 };

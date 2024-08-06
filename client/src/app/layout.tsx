@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`bg-zinc-900 ${inter.className}`}>
         <NavBar />
-        <div className="mt-32">{children}</div>
+        <div>{children}</div>
       </body>
     </html>
   );
