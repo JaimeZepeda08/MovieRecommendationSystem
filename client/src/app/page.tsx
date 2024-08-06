@@ -10,7 +10,7 @@ const Home: React.FC = () => {
       <div className="text-center">
         <div className="relative mb-64">
           <div className="absolute inset-0 flex justify-center items-center">
-            <h1 className="text-7xl font-bold text-yellow-600 curved-title">
+            <h1 className="text-8xl font-bold text-yellow-600 curved-title">
               {titleArray.map((letter, index) => (
                 <span key={index} className={`letter-${index}`}>
                   {letter}

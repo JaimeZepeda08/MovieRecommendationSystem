@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MovieCarrousel } from "../../components/movie";
+import { MovieCarrousel } from "@/components/movie";
 
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);

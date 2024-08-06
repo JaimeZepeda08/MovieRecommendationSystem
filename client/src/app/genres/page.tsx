@@ -38,7 +38,7 @@ const Home: React.FC = () => {
   const query = selectedGenres.join(",");
 
   return (
-    <div className="flex justify-center items-center h-screen text-white">
+    <div className="flex justify-center h-screen text-white mt-60 mb-20">
       <div className="text-center space-y-10">
         <h1 className="text-2xl">Pick your favorite genres</h1>
         <div className="flex justify-center items-center">
