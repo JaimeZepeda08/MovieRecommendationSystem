@@ -4,10 +4,13 @@ import { useState } from "react";
 import { BiMoviePlay } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import { LuDot } from "react-icons/lu";
 
 interface MovieProps {
   title: string;
   release_date: string;
+  certification: string;
+  runtime: string;
   poster: string;
   genres: string[];
   rating: number;
@@ -16,6 +19,8 @@ interface MovieProps {
 
 export const Movie: React.FC<MovieProps> = ({
   title,
+  certification,
+  runtime,
   release_date,
   poster,
   genres,
@@ -49,11 +54,17 @@ export const Movie: React.FC<MovieProps> = ({
           } h-auto rounded-lg`}
         />
         {selected && (
-          <div className="w-1/2 h-auto rounded-tr-lg rounded-br-lg bg-black bg-opacity-60 text-white p-4 space-y-6 transition-opacity duration-300 ease-in-out">
-            <div>
-              <div className="flex items-center text-lg font-bold">{title}</div>
-              <div className="font-thin text-sm">
-                {"(" + release_date + ")"}
+          <div className="w-1/2 h-auto rounded-tr-lg rounded-br-lg bg-black bg-opacity-60 text-white py-4 pl-3.5 pr-1 space-y-6 transition-opacity duration-300 ease-in-out">
+            <div className="space-y-1">
+              <div className="flex text-lg font-bold">{title}</div>
+              <div className="flex font-thin text-sm items-center">
+                <div className="px-[0.2rem] py-[0.01rem] border">
+                  {certification}
+                </div>
+                <LuDot />
+                <div>{"(" + release_date + ")"}</div>
+                <LuDot />
+                <div>{runtime}</div>
               </div>
             </div>
             <div className="flex relative items-center px-4 space-x-8">
@@ -159,6 +170,8 @@ export const MovieCarrousel: React.FC<MovieCarrouselProps> = ({ movies }) => {
           key={index}
           title={movie.title}
           release_date={movie.release_date}
+          certification={movie.certification}
+          runtime={movie.runtime}
           poster={movie.poster}
           genres={movie.genres}
           rating={movie.rating}

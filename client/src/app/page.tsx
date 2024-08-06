@@ -1,10 +1,12 @@
 import React from "react";
-import { MovieCarrousel } from "./components/movie";
+import { MovieCarrousel } from "../components/movie";
 
 const movies = [
   {
     title: "Toy Story",
     release_date: "1998",
+    certification: "G",
+    runtime: "2h 13m",
     poster: "movietest.jpg",
     genres: ["comedy", "children"],
     rating: 64,
@@ -13,6 +15,8 @@ const movies = [
   {
     title: "Inception",
     release_date: "2012",
+    certification: "TV-MA",
+    runtime: "2h 13m",
     poster: "inceptiontest.jpg",
     genres: ["sci-fi", "thriller", "sci-fi", "thriller", "sci-fi", "thriller"],
     rating: 23,
@@ -21,6 +25,8 @@ const movies = [
   {
     title: "The Lion King",
     release_date: "1995",
+    certification: "PG",
+    runtime: "2h 13m",
     poster: "lionkingtest.jpg",
     genres: ["animation", "adventure"],
     rating: 70,
@@ -29,6 +35,8 @@ const movies = [
   {
     title: "The Shawshank Redemption",
     release_date: "2014",
+    certification: "R",
+    runtime: "2h 13m",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,
@@ -37,6 +45,8 @@ const movies = [
   {
     title: "Star Wars: Episode IV - A New Hope",
     release_date: "2014",
+    certification: "PG-13",
+    runtime: "2h 13m",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,
@@ -45,6 +55,8 @@ const movies = [
   {
     title: "Interstellar",
     release_date: "2014",
+    certification: "PG-13",
+    runtime: "2h 13m",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,
@@ -53,6 +65,8 @@ const movies = [
   {
     title: "Interstellar",
     release_date: "2014",
+    certification: "PG-13",
+    runtime: "2h 13m",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,

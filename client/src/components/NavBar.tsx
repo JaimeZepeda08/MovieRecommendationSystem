@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function NavBar() {
-  const links = [{ name: "About", href: "." }];
+  const links = [{ name: "About", href: "/about" }];
 
   return (
     <nav className="bg-zinc-950 bg-opacity-60 backdrop-blur-md text-white p-6 flex justify-between items-center shadow-2xl fixed top-0 w-full z-50">
