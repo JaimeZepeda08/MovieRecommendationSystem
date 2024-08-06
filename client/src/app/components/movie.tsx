@@ -7,6 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 interface MovieProps {
   title: string;
+  release_date: string;
   poster: string;
   genres: string[];
   rating: number;
@@ -15,6 +16,7 @@ interface MovieProps {
 
 export const Movie: React.FC<MovieProps> = ({
   title,
+  release_date,
   poster,
   genres,
   rating,
@@ -36,7 +38,7 @@ export const Movie: React.FC<MovieProps> = ({
       onClick={handleSelect}
       className={`group relative ${
         selected ? "w-[24rem]" : "w-[12rem]"
-      } hover:scale-[1.03] hover:cursor-pointer`}
+      } hover:scale-[1.03] transition-transform duration-200 ease-in-out hover:cursor-pointer`}
     >
       <div className="relative flex">
         <img
@@ -47,13 +49,18 @@ export const Movie: React.FC<MovieProps> = ({
           } h-auto rounded-lg`}
         />
         {selected && (
-          <div className="w-1/2 h-auto rounded-tr-lg rounded-br-lg bg-black bg-opacity-60 text-white p-4 space-y-4 transition-opacity duration-300 ease-in-out">
-            <h1 className="text-lg font-bold">{title}</h1>
+          <div className="w-1/2 h-auto rounded-tr-lg rounded-br-lg bg-black bg-opacity-60 text-white p-4 space-y-6 transition-opacity duration-300 ease-in-out">
+            <div>
+              <div className="flex items-center text-lg font-bold">{title}</div>
+              <div className="font-thin text-sm">
+                {"(" + release_date + ")"}
+              </div>
+            </div>
             <div className="flex relative items-center px-4 space-x-8">
               <RatingCircle rating={rating} />
               <BiMoviePlay
                 size={28}
-                className="opacity-20 hover:opacity-100 cursor-alias"
+                className="opacity-50 hover:opacity-100 cursor-alias"
                 onClick={handleVisit}
               />
             </div>
@@ -73,7 +80,7 @@ export const Movie: React.FC<MovieProps> = ({
           </div>
         )}
         <div
-          className="hidden group-hover:block absolute -z-10 inset-0 rounded-lg blur-md opacity-60"
+          className="absolute -z-10 inset-0 rounded-lg blur-md opacity-0 group-hover:opacity-60 transition-opacity duration-200 ease-in-out"
           style={{
             backgroundImage: `url(${poster})`,
             backgroundSize: "cover",
@@ -81,8 +88,8 @@ export const Movie: React.FC<MovieProps> = ({
         ></div>
       </div>
       {!selected && (
-        <div className="hidden group-hover:block absolute bottom-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-sm text-white p-4 rounded-b-lg transition-opacity duration-300 ease-in-out">
-          <h1 className="text-lg font-bold">{title}</h1>
+        <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-30 backdrop-blur-sm text-white p-4 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+          <div className="text-lg font-bold">{title}</div>
           <div className="hidden group-hover:flex z-10 absolute right-2 top-1/2 -translate-y-1/2 text-white">
             <IoIosArrowForward size={25} />
           </div>
@@ -117,7 +124,6 @@ const RatingCircle: React.FC<RatingProps> = ({ rating }) => {
         className="absolute"
         preserveAspectRatio="xMidYMid meet"
       >
-        {/* Progress Circle */}
         <circle
           cx={radius + strokeWidth / 2}
           cy={radius + strokeWidth / 2}
@@ -127,11 +133,15 @@ const RatingCircle: React.FC<RatingProps> = ({ rating }) => {
           fill="transparent"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
-          style={{ transition: "stroke-dashoffset 0.5s ease" }}
+          style={{
+            transition: "stroke-dashoffset 0.5s ease",
+            transform: `rotate(-90deg)`,
+            transformOrigin: "50% 50%",
+          }}
         />
       </svg>
       <div className="flex items-center justify-center rounded-full w-10 h-10 text-white text-sm z-10">
-        {rating}
+        {rating} <span className="font-thin">%</span>
       </div>
     </div>
   );
@@ -148,6 +158,7 @@ export const MovieCarrousel: React.FC<MovieCarrouselProps> = ({ movies }) => {
         <Movie
           key={index}
           title={movie.title}
+          release_date={movie.release_date}
           poster={movie.poster}
           genres={movie.genres}
           rating={movie.rating}

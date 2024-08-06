@@ -4,6 +4,7 @@ import { MovieCarrousel } from "./components/movie";
 const movies = [
   {
     title: "Toy Story",
+    release_date: "1998",
     poster: "movietest.jpg",
     genres: ["comedy", "children"],
     rating: 64,
@@ -11,20 +12,31 @@ const movies = [
   },
   {
     title: "Inception",
+    release_date: "2012",
     poster: "inceptiontest.jpg",
     genres: ["sci-fi", "thriller", "sci-fi", "thriller", "sci-fi", "thriller"],
-    rating: 83,
+    rating: 23,
     tmdbId: "27205",
   },
   {
     title: "The Lion King",
+    release_date: "1995",
     poster: "lionkingtest.jpg",
     genres: ["animation", "adventure"],
     rating: 70,
     tmdbId: "8587",
   },
   {
-    title: "Interstellar",
+    title: "The Shawshank Redemption",
+    release_date: "2014",
+    poster: "interstellartest.jpg",
+    genres: ["action", "sci-fi"],
+    rating: 86,
+    tmdbId: "157336",
+  },
+  {
+    title: "Star Wars: Episode IV - A New Hope",
+    release_date: "2014",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,
@@ -32,6 +44,7 @@ const movies = [
   },
   {
     title: "Interstellar",
+    release_date: "2014",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,
@@ -39,13 +52,7 @@ const movies = [
   },
   {
     title: "Interstellar",
-    poster: "interstellartest.jpg",
-    genres: ["action", "sci-fi"],
-    rating: 86,
-    tmdbId: "157336",
-  },
-  {
-    title: "Interstellar",
+    release_date: "2014",
     poster: "interstellartest.jpg",
     genres: ["action", "sci-fi"],
     rating: 86,
@@ -57,7 +64,7 @@ const Home: React.FC = () => {
   return (
     <div className="my-16 ml-8 space-y-8">
       <div>
-        <span className="text-white text-2xl ml-5">Your Recommendations:</span>
+        <span className="text-white text-2xl ml-5">Top Picks For You:</span>
         <div className="flex overflow-x-scroll">
           <MovieCarrousel movies={movies} />
         </div>
