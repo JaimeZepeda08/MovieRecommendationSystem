@@ -71,7 +71,6 @@ def getMovieByID():
     else:
         return jsonify({"error": "Movie not found"}), 404
 
-# TODO add a few movies from other categories
 @app.route("/getMoviesToRate")
 def getMoviesToRate():
     genres = request.args.get('genres', type=str)
@@ -80,8 +79,13 @@ def getMoviesToRate():
     movies_to_rate_json = []
     selected = set()
     for genre in movies_to_rate:
-        movies_in_genre = random.sample(genre, min(15, len(genre)))
+        movies_in_genre = random.sample(genre, min(20, len(genre)))
         for movie in movies_in_genre:
+            if movie.movieId not in selected:
+                movies_to_rate_json.append(movie.to_dict())
+                selected.add(movie.movieId)
+    extra_movies = random.sample(list(movies.values()), 15 * len(genres_picked_by_user))
+    for movie in extra_movies:
             if movie.movieId not in selected:
                 movies_to_rate_json.append(movie.to_dict())
                 selected.add(movie.movieId)
@@ -89,6 +93,7 @@ def getMoviesToRate():
     return movies_to_rate_json
 
 # TODO return movies separated by categories
+# TODO add some randomness so that more movies are shown
 @app.route("/getMoviePredictions")
 def getMoviePredictions():
     user_ratings = request.args.get('ratings', type=str)
