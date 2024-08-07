@@ -7,6 +7,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);
   const [ratings, setRatings] = useState<{ [key: string]: number }>({});
+  const [genres, setGenres] = useState<string>("");
 
   useEffect(() => {
     const getQueryParams = () => {
@@ -18,6 +19,9 @@ const Home: React.FC = () => {
     const fetchMovies = async () => {
       try {
         const genres = getQueryParams();
+        if (genres != null) {
+          setGenres(genres);
+        }
 
         const moviePromises = await fetch(
           `http://localhost:5001/getMoviesToRate?genres=${genres}`
@@ -57,7 +61,7 @@ const Home: React.FC = () => {
           </h1>
           <div className="flex justify-center text-lg mt-4">
             <a
-              href={`/home?ratings=${serializeRatings()}`}
+              href={`/home?ratings=${serializeRatings()}&genres=${genres}`}
               className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/70 transition-colors duration-200"
             >
               <h1>Continue</h1>

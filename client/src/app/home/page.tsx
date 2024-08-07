@@ -4,28 +4,32 @@ import React, { useEffect, useState } from "react";
 import { MovieCarrousel } from "@/components/movie";
 
 const Home: React.FC = () => {
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<any[][]>([]);
+  const [genres, setGenres] = useState<string[]>([]);
 
   useEffect(() => {
     const getQueryParams = () => {
       const queryString = window.location.search;
       const params = new URLSearchParams(queryString);
-      return params.get("ratings");
+      return [params.get("ratings"), params.get("genres")];
     };
 
     const fetchMovies = async () => {
       try {
-        const ratings = getQueryParams();
+        const [ratings, genres] = getQueryParams();
+        if (genres) {
+          setGenres(genres.split(","));
+        }
 
-        const moviePromises = await fetch(
-          `http://localhost:5001/getMoviePredictions?ratings=${ratings}`
-        ).then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-          }
-          return res.json();
-        });
-        const moviesData = await Promise.all(moviePromises);
+        const response = await fetch(
+          `http://localhost:5001/getMoviePredictions?ratings=${ratings}&genres=${genres}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const moviesData = await response.json();
         setMovies(moviesData);
       } catch (error) {
         console.error("Failed to fetch movies", error);
@@ -40,9 +44,17 @@ const Home: React.FC = () => {
       <div>
         <span className="text-white text-2xl ml-5">Top Picks for You:</span>
         <div className="flex overflow-x-scroll">
-          <MovieCarrousel movies={movies} />
+          <MovieCarrousel movies={movies[0] || []} />
         </div>
       </div>
+      {genres.map((genre, index) => (
+        <div key={index}>
+          <span className="text-white text-2xl ml-5">{genre}</span>
+          <div className="flex overflow-x-scroll">
+            <MovieCarrousel movies={movies[index + 1] || []} />
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

@@ -56,20 +56,20 @@ export const Movie: React.FC<MovieProps> = ({
           } h-auto rounded-lg`}
         />
         {selected && (
-          <div className="w-1/2 h-auto rounded-tr-lg rounded-br-lg bg-black bg-opacity-60 text-white py-4 pl-3.5 pr-1 space-y-6 transition-opacity duration-300 ease-in-out">
+          <div className="w-1/2 h-auto rounded-tr-lg rounded-br-lg bg-black bg-opacity-60 text-white py-4 pl-2 pr-2 space-y-5 transition-opacity duration-300 ease-in-out">
             <div className="space-y-1">
               <div className="flex text-lg font-bold">{title}</div>
-              <div className="flex font-thin text-sm items-center">
+              <div className="flex font-thin text-[0.75rem] items-center">
                 <div className="px-[0.2rem] py-[0.01rem] border">
                   {certification}
                 </div>
                 <LuDot />
-                <div>{"(" + release_date + ")"}</div>
+                <div>{release_date}</div>
                 <LuDot />
                 <div>{runtime}</div>
               </div>
             </div>
-            <div className="flex relative items-center px-4 space-x-8">
+            <div className="flex justify-center relative items-center gap-x-8">
               <RatingCircle rating={rating} />
               <BiMoviePlay
                 size={28}
@@ -77,11 +77,11 @@ export const Movie: React.FC<MovieProps> = ({
                 onClick={handleVisit}
               />
             </div>
-            <div className="absolute bottom-5 flex flex-wrap gap-2 text-xs">
+            <div className="absolute bottom-5 flex flex-wrap gap-1 text-[0.65rem] mr-2">
               {genres.map((genre, index) => (
                 <span
                   key={index}
-                  className="p-1 px-2 rounded-full bg-slate-400/50"
+                  className="py-[0.175rem] px-1.5 rounded-full bg-slate-400/50"
                 >
                   {genre}
                 </span>

@@ -98,6 +98,10 @@ def getMoviesToRate():
 def getMoviePredictions():
     user_ratings = request.args.get('ratings', type=str)
     ratings = user_ratings.split(",")
+
+    genres = request.args.get('genres', type=str)
+    genres_picked_by_user = genres.split(",")
+
     rated_by_user = set()
     for i in range(len(ratings)):
         movie_rating = ratings[i].split(":")
@@ -114,12 +118,21 @@ def getMoviePredictions():
     predictions = __predictMovies(ratings_matrix, user_df)
 
     recommended = []
+    recommended_movies_by_genre = {}
+    for genre in genres_picked_by_user:
+        recommended_movies_by_genre[genre] = []
+
     for movieId in predictions:
         if int(movieId) not in rated_by_user:
             recommended.append(movies[int(movieId)].to_dict())
+            for genre in genres_picked_by_user:
+                if genre in movies[int(movieId)].genres:
+                    recommended_movies_by_genre[genre].append(movies[int(movieId)].to_dict())
 
     num_movies = 20
-    return recommended[:num_movies]
+    recommended_movies = [recommended[:num_movies]]
+    recommended_movies.extend([movies_by_genre[:num_movies] for movies_by_genre in list(recommended_movies_by_genre.values())])
+    return recommended_movies
 
 def __convertId(tmbdId):
     return ids.loc[tmbdId].movieId
