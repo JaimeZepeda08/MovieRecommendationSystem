@@ -11,23 +11,24 @@ app = Flask(__name__)
 CORS(app)  # This allows all origins by default
 
 # Load completed ratings matrix
-print("loading ratings matrix...")
+print("Loading ratings matrix...")
 ratings_matrix = pd.read_csv("ratings_matrix.csv")
 ratings_matrix.set_index("userId", inplace=True)
 
 # Load movies data once when the server starts
 movies = {}
 filename = "movie_objects0.769916"
-print("loading movie objects...")
+print("Loading movie objects...")
 with gzip.open(filename, 'rb') as f:
     serialized_data = f.read()
     movies = pickle.loads(serialized_data)
 
 # Load sorted list of movies by popularity
-print("loading movie list sorted by popularity...")
+print("Loading movie list sorted by popularity...")
 popular_movies = np.load("popular_movies.npz")["top_popular_movies"]
 
 # Categorize movies by genre
+print("Categorizing movies by genre...")
 genres = ["Action", 
           "Adventure", 
           "Animation", 
@@ -56,6 +57,11 @@ for movieId in popular_movies:
     for genre in movies[movieId].genres:
         movie_by_genre[genre].append(movies[movieId])
 
+# Load conversion chart
+print("Loading id conversion chart...")
+ids = pd.read_csv("id_conversion_chart.csv")
+ids.set_index("tmdbId", inplace=True)
+
 @app.route("/getMovie")
 def getMovieByID():
     movie_id = request.args.get('id', type=int)
@@ -82,12 +88,34 @@ def getMoviesToRate():
 
 @app.route("/getMoviePredictions")
 def getMoviePredictions():
-    pass
+    user_ratings = request.args.get('ratings', type=str)
+    ratings = user_ratings.split(",")
+    for i in range(len(ratings)):
+        movie_rating = ratings[i].split(":")
+        ratings[i] = (movie_rating[0], movie_rating[1])
+    
+    user_df = pd.DataFrame(columns=ratings_matrix.columns.astype(int), 
+                           index=[0], 
+                           data=np.zeros(len(ratings_matrix.columns)).reshape(1, 1000))
+
+    for movieId, rating in ratings:
+        user_df.at[0, __convertId(int(movieId))] = rating
+    
+    predictions = __predictMovies(ratings_matrix, user_df)
+
+    return [movies[int(movieId)].to_dict() for movieId in predictions[:20]]
+
+def __convertId(tmbdId):
+    return ids.loc[tmbdId].movieId
+
 
 def __predictMovies(M, user_df):
     combinedM = np.vstack([M.to_numpy(), user_df.to_numpy()])
     imputer = KNNImputer(n_neighbors=10, missing_values=0)
-    recommendations = imputer.fit_transform(combinedM)[-1].reshape(1, num_movies)
+    recommendations = imputer.fit_transform(combinedM)[-1].reshape(1, len(movies.keys()))
+    recommendations_df = pd.DataFrame(recommendations, columns=M.columns, index=[0])
+    sorted_recommendations = recommendations_df.loc[0].sort_values(ascending=False)
+    return sorted_recommendations.index
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=False, threaded=False)

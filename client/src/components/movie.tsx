@@ -8,7 +8,7 @@ import { LuDot } from "react-icons/lu";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoIosStar } from "react-icons/io";
 
-interface MovieProps {
+export interface MovieProps {
   title: string;
   release_date: string;
   certification: string;
@@ -125,6 +125,15 @@ const RatingCircle: React.FC<RatingProps> = ({ rating }) => {
   const strokeDashoffset =
     circumference - (clampedRating / 100) * circumference;
 
+  let strokeColor;
+  if (clampedRating > 70) {
+    strokeColor = "green";
+  } else if (clampedRating > 50) {
+    strokeColor = "yellow";
+  } else {
+    strokeColor = "red";
+  }
+
   return (
     <div
       className="relative flex items-center justify-center w-12 h-12"
@@ -141,14 +150,14 @@ const RatingCircle: React.FC<RatingProps> = ({ rating }) => {
           cx={radius + strokeWidth / 2}
           cy={radius + strokeWidth / 2}
           r={radius}
-          stroke="green"
+          stroke={strokeColor}
           strokeWidth={strokeWidth}
           fill="transparent"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
           style={{
             transition: "stroke-dashoffset 0.5s ease",
-            transform: `rotate(-90deg)`,
+            transform: "rotate(-90deg)",
             transformOrigin: "50% 50%",
           }}
         />
@@ -168,36 +177,27 @@ export const MovieCarrousel: React.FC<MovieCarrouselProps> = ({ movies }) => {
   return (
     <div className="relative flex space-x-5 mr-10 ml-8 my-9">
       {movies.map((movie, index) => (
-        <Movie
-          key={index}
-          title={movie.title}
-          release_date={movie.release_date}
-          certification={movie.certification}
-          runtime={movie.runtime}
-          poster={movie.poster}
-          genres={movie.genres}
-          rating={movie.rating}
-          tmdbId={movie.tmdbId}
-        />
+        <Movie key={index} {...movie} />
       ))}
     </div>
   );
 };
 
-export const RateableMovie: React.FC<MovieProps> = ({
+interface RateableMovieProps extends MovieProps {
+  onRatingUpdate: (tmdbId: string, rating: number) => void;
+}
+
+export const RateableMovie: React.FC<RateableMovieProps> = ({
   title,
-  certification,
-  runtime,
-  release_date,
   poster,
-  genres,
-  rating,
   tmdbId,
+  onRatingUpdate,
 }) => {
   const [userRating, setUserRating] = useState<number>(0);
 
   const handleStarClick = (rating: number) => {
     setUserRating(rating);
+    onRatingUpdate(tmdbId, rating);
   };
 
   const renderStars = () => {
@@ -208,7 +208,7 @@ export const RateableMovie: React.FC<MovieProps> = ({
         className="cursor-pointer"
       >
         {userRating > index ? (
-          <IoIosStar size={25} className="text-yellow-600" />
+          <IoIosStar size={25} className="text-yellow-500" />
         ) : (
           <IoIosStarOutline size={25} className="text-yellow-600/50" />
         )}

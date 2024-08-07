@@ -5,19 +5,26 @@ import { MovieCarrousel } from "@/components/movie";
 
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);
-  const movieIds = [1, 2, 3];
 
   useEffect(() => {
+    const getQueryParams = () => {
+      const queryString = window.location.search;
+      const params = new URLSearchParams(queryString);
+      return params.get("ratings");
+    };
+
     const fetchMovies = async () => {
       try {
-        const moviePromises = movieIds.map((id) =>
-          fetch(`http://localhost:5001/getMovie?id=${id}`).then((res) => {
-            if (!res.ok) {
-              throw new Error(`HTTP error! Status: ${res.status}`);
-            }
-            return res.json();
-          })
-        );
+        const ratings = getQueryParams();
+
+        const moviePromises = await fetch(
+          `http://localhost:5001/getMoviePredictions?ratings=${ratings}`
+        ).then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+          return res.json();
+        });
         const moviesData = await Promise.all(moviePromises);
         setMovies(moviesData);
       } catch (error) {

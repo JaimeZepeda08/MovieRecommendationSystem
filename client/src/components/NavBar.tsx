@@ -10,6 +10,7 @@ export default function NavBar() {
       <a
         href="/"
         className="text-2xl font-bold m-2 text-yellow-600 curved-title"
+        style={{ textShadow: "1px 1px 3px rgba(150, 120, 0, 0.7)" }}
       >
         {titleArray.map((letter, index) => (
           <span key={index} className={`letter-${index}`}>
