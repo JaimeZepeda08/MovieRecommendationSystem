@@ -69,7 +69,7 @@ export const Movie: React.FC<MovieProps> = ({
                 <div>{runtime}</div>
               </div>
             </div>
-            <div className="flex justify-center relative items-center gap-x-8">
+            <div className="flex justify-center relative items-center -translate-x-1 gap-x-8">
               <RatingCircle rating={rating} />
               <BiMoviePlay
                 size={28}
@@ -77,7 +77,7 @@ export const Movie: React.FC<MovieProps> = ({
                 onClick={handleVisit}
               />
             </div>
-            <div className="absolute bottom-5 flex flex-wrap gap-1 text-[0.65rem] mr-2">
+            <div className="absolute bottom-5 flex flex-wrap gap-1 text-[0.68rem] mr-2">
               {genres.map((genre, index) => (
                 <span
                   key={index}

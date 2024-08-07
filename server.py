@@ -92,8 +92,6 @@ def getMoviesToRate():
     random.shuffle(movies_to_rate_json)
     return movies_to_rate_json
 
-# TODO return movies separated by categories
-# TODO add some randomness so that more movies are shown
 @app.route("/getMoviePredictions")
 def getMoviePredictions():
     user_ratings = request.args.get('ratings', type=str)
@@ -131,7 +129,7 @@ def getMoviePredictions():
 
     num_movies = 20
     recommended_movies = [recommended[:num_movies]]
-    recommended_movies.extend([movies_by_genre[:num_movies] for movies_by_genre in list(recommended_movies_by_genre.values())])
+    recommended_movies.extend([random.sample(movies_by_genre[:num_movies + int(0.5 * num_movies)], num_movies) for movies_by_genre in list(recommended_movies_by_genre.values())])
     return recommended_movies
 
 def __convertId(tmbdId):

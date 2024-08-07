@@ -47,6 +47,7 @@ const Home: React.FC = () => {
           <MovieCarrousel movies={movies[0] || []} />
         </div>
       </div>
+      {/* the website is requesting movies twice (idk why) so these change because of the added randomness */}
       {genres.map((genre, index) => (
         <div key={index}>
           <span className="text-white text-2xl ml-5">{genre}</span>
