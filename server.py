@@ -71,6 +71,7 @@ def getMovieByID():
     else:
         return jsonify({"error": "Movie not found"}), 404
 
+# TODO add a few movies from other categories
 @app.route("/getMoviesToRate")
 def getMoviesToRate():
     genres = request.args.get('genres', type=str)
@@ -84,26 +85,36 @@ def getMoviesToRate():
             if movie.movieId not in selected:
                 movies_to_rate_json.append(movie.to_dict())
                 selected.add(movie.movieId)
+    random.shuffle(movies_to_rate_json)
     return movies_to_rate_json
 
+# TODO return movies separated by categories
 @app.route("/getMoviePredictions")
 def getMoviePredictions():
     user_ratings = request.args.get('ratings', type=str)
     ratings = user_ratings.split(",")
+    rated_by_user = set()
     for i in range(len(ratings)):
         movie_rating = ratings[i].split(":")
-        ratings[i] = (movie_rating[0], movie_rating[1])
+        ratings[i] = (__convertId(int(movie_rating[0])), movie_rating[1])
+        rated_by_user.add(__convertId(int(movie_rating[0])))
     
     user_df = pd.DataFrame(columns=ratings_matrix.columns.astype(int), 
                            index=[0], 
                            data=np.zeros(len(ratings_matrix.columns)).reshape(1, 1000))
 
     for movieId, rating in ratings:
-        user_df.at[0, __convertId(int(movieId))] = rating
+        user_df.at[0, movieId] = rating
     
     predictions = __predictMovies(ratings_matrix, user_df)
 
-    return [movies[int(movieId)].to_dict() for movieId in predictions[:20]]
+    recommended = []
+    for movieId in predictions:
+        if int(movieId) not in rated_by_user:
+            recommended.append(movies[int(movieId)].to_dict())
+
+    num_movies = 20
+    return recommended[:num_movies]
 
 def __convertId(tmbdId):
     return ids.loc[tmbdId].movieId

@@ -175,7 +175,7 @@ interface MovieCarrouselProps {
 
 export const MovieCarrousel: React.FC<MovieCarrouselProps> = ({ movies }) => {
   return (
-    <div className="relative flex space-x-5 mr-10 ml-8 my-9">
+    <div className="relative flex space-x-5 pr-12 ml-10 my-9">
       {movies.map((movie, index) => (
         <Movie key={index} {...movie} />
       ))}

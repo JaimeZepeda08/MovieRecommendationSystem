@@ -38,7 +38,7 @@ const Home: React.FC = () => {
   const query = selectedGenres.join(",");
 
   return (
-    <div className="flex justify-center h-screen text-white mt-60 mb-20">
+    <div className="flex justify-center text-white mt-60 mb-20">
       <div className="text-center space-y-10">
         <h1 className="text-2xl">Pick your favorite genres</h1>
         <div className="flex justify-center items-center">
@@ -61,7 +61,7 @@ const Home: React.FC = () => {
         <div className="flex justify-center text-lg">
           <a
             href={`/rate-movies?genres=${encodeURIComponent(query)}`}
-            className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/60 transition-colors duration-200"
+            className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/70 transition-colors duration-200"
           >
             <h1>Continue</h1>
             <FaArrowRightLong

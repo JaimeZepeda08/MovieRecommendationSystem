@@ -52,10 +52,13 @@ const Home: React.FC = () => {
       <div className="text-center space-y-10">
         <div>
           <h1 className="text-2xl">Rate the movies that you've watched</h1>
-          <div className="flex justify-center text-lg">
+          <h1 className="text-sm font-thin">
+            {"(The more movies you rate, the better the predictions will be)"}
+          </h1>
+          <div className="flex justify-center text-lg mt-4">
             <a
               href={`/home?ratings=${serializeRatings()}`}
-              className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/60 transition-colors duration-200"
+              className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/70 transition-colors duration-200"
             >
               <h1>Continue</h1>
               <FaArrowRightLong

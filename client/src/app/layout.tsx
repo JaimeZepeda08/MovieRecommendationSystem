@@ -6,7 +6,7 @@ import NavBar from "../components/NavBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Movie Recommendation System",
+  title: "Fakeflix",
 };
 
 export default function RootLayout({
