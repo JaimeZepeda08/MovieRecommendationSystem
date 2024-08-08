@@ -36,3 +36,24 @@
 .letter-7 {
   transform: translateY(-6px);
 }
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 1; }
+  40% { opacity: 0; }
+}
+
+.dot {
+  animation: blink 1.5s infinite;
+}
+
+.one {
+  animation-delay: 0s;
+}
+
+.two {
+  animation-delay: 0.3s;
+}
+
+.three {
+  animation-delay: 0.6s;
+}

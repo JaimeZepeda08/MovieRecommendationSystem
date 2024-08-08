@@ -7,6 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { LuDot } from "react-icons/lu";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoIosStar } from "react-icons/io";
+import FadeIn from "./FadeIn";
 
 export interface MovieProps {
   title: string;
@@ -177,7 +178,9 @@ export const MovieCarrousel: React.FC<MovieCarrouselProps> = ({ movies }) => {
   return (
     <div className="relative flex space-x-5 pr-12 ml-10 my-9">
       {movies.map((movie, index) => (
-        <Movie key={index} {...movie} />
+        <FadeIn delay={0.05 * index}>
+          <Movie key={index} {...movie} />
+        </FadeIn>
       ))}
     </div>
   );

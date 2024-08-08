@@ -1,6 +1,8 @@
 "use client";
 
+import FadeIn from "@/components/FadeIn";
 import { RateableMovie } from "@/components/movie";
+import Reveal from "@/components/Reveal";
 import React, { useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -55,30 +57,40 @@ const Home: React.FC = () => {
     <div className="flex justify-center h-screen text-white mt-36">
       <div className="text-center space-y-10">
         <div>
-          <h1 className="text-2xl">Rate the movies that you've watched</h1>
-          <h1 className="text-sm font-thin">
-            {"(The more movies you rate, the better the predictions will be)"}
-          </h1>
-          <div className="flex justify-center text-lg mt-4">
-            <a
-              href={`/home?ratings=${serializeRatings()}&genres=${genres}`}
-              className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/70 transition-colors duration-200"
-            >
-              <h1>Continue</h1>
-              <FaArrowRightLong
-                size={20}
-                className="transform transition-transform duration-200 group-hover:translate-x-3"
-              />
-            </a>
-          </div>
+          <Reveal width="w-full" down={true}>
+            <div>
+              <h1 className="text-2xl">Rate the movies that you've watched</h1>
+              <h1 className="text-sm font-thin">
+                {
+                  "(The more movies you rate, the better the predictions will be)"
+                }
+              </h1>
+            </div>
+          </Reveal>
+          <Reveal width="w-full" horizontal={true} delay={1}>
+            <div className="flex justify-center text-lg mt-4">
+              <a
+                href={`/home?ratings=${serializeRatings()}&genres=${genres}`}
+                className="group p-3 flex items-center space-x-2 text-gray-400 hover:underline hover:text-yellow-300/70 transition-colors duration-200"
+              >
+                <h1>Continue</h1>
+                <FaArrowRightLong
+                  size={20}
+                  className="transform transition-transform duration-200 group-hover:translate-x-4"
+                />
+              </a>
+            </div>
+          </Reveal>
         </div>
         <div className="flex flex-wrap justify-center items-center gap-8 mx-32 pb-20">
           {movies.map((movie) => (
-            <RateableMovie
-              key={movie.tmdbId}
-              {...movie}
-              onRatingUpdate={handleRatingUpdate}
-            />
+            <FadeIn delay={0.2}>
+              <RateableMovie
+                key={movie.tmdbId}
+                {...movie}
+                onRatingUpdate={handleRatingUpdate}
+              />
+            </FadeIn>
           ))}
         </div>
       </div>
