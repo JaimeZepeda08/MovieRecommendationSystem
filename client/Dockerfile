@@ -13,20 +13,11 @@ RUN npm install --frozen-lockfile
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the React app for production
+# Build the Next.js app for production
 RUN npm run build
 
-# Use an Nginx image to serve the built files
-FROM nginx:alpine
+# Expose port 3000
+EXPOSE 3000
 
-# Copy the built React app from the previous stage
-COPY --from=build /client/build /usr/share/nginx/html
-
-# Copy custom Nginx configuration if needed (optional)
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx when the container launches
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Next.js app
+CMD ["npm", "start"]
