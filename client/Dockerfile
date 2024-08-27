@@ -1,5 +1,5 @@
 # Use node as parent image
-FROM node:18-alpine as build
+FROM node:18-alpine 
 
 # Set the working directory in the container
 WORKDIR /client
@@ -8,7 +8,7 @@ WORKDIR /client
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --frozen-lockfile
+RUN npm install
 
 # Copy the rest of the application code to the working directory
 COPY . .

@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   const titleArray = title.split("");
 
   return (
-    <div className="flex justify-center items-center h-screen text-white">
+    <div className="flex justify-center text-white mt-64">
       <div className="text-center">
         <div className="relative mb-64">
           <div className="absolute inset-0 flex justify-center items-center">

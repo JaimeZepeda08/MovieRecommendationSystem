@@ -98,6 +98,9 @@ def getMoviesToRate():
         # select 20 random movies from each category
         movies_in_genre = random.sample(genre, min(20, len(genre)))
         for movie in movies_in_genre:
+            # this movie has been removed from the tmbd database
+            if int(movie.movieId) == __convertId(202249):
+                continue
             # make sure the movie is not a duplicate
             if movie.movieId not in selected:
                 movies_to_rate_json.append(movie.to_dict())
@@ -158,6 +161,9 @@ def getMoviePredictions():
     for movieId in predictions:
         # make sure recommended movies are not repeated
         if int(movieId) not in rated_by_user:
+            # this movie has been removed from the tmbd database
+            if int(movieId) == __convertId(202249):
+                continue
             # add movie to recommended
             recommended.append(movies[int(movieId)].to_dict())
             # recommendations for each genre
@@ -189,4 +195,4 @@ def __predictMovies(M, user_df):
     return sorted_recommendations.index
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001, debug=False, threaded=False)
+    app.run(host="0.0.0.0", port=5001, debug=False, threaded=True)

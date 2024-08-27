@@ -1,4 +1,7 @@
 __pycache__/
+*.pyc
+.env
+.git
 
 debug.ipynb
 ml-32m.zip

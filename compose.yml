@@ -5,8 +5,15 @@ services:
     build: ./server
     ports:
       - "5001:5001"
+    depends_on:
+      - client
+    environment:
+      - FLASK_ENV=production
+      - GUNICORN_CMD_ARGS=--bind=0.0.0.0:5001 --workers=4
 
   client:
     build: ./client
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
