@@ -9,7 +9,7 @@ services:
       - client
     environment:
       - FLASK_ENV=production
-      - GUNICORN_CMD_ARGS=--bind=0.0.0.0:5001 --workers=4
+      - GUNICORN_CMD_ARGS=--bind=0.0.0.0:5001
 
   client:
     build: ./client

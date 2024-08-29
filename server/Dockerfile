@@ -14,5 +14,5 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 # Expose port 5001 to allow access to the Flask app from outside the container
 EXPOSE 5001
 
-# Run the Flask app with Gunicorn
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5001", "server:app"]
+# Run the Flask app with Gunicorn using only 1 worker
+CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5001", "server:app"]
